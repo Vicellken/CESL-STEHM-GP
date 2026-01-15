@@ -11,6 +11,11 @@ scattersize=40;
 latlim=[25 50];
 longlim=[275 305];
 gridsz=[.25 .25];
+if numel(gridsz)==1
+    gridsz=[gridsz gridsz];
+elseif numel(gridsz)>2
+    gridsz=gridsz(1:2);
+end
 
 firstyears2 = [1000 1250 1000 1500 1850];
 lastyears2=   [1250 1500 1500 1850 2000];
@@ -25,8 +30,8 @@ Flong=longlim(1):gridsz(2):longlim(2);
 sub=find(testsites(:,2)<=360);
 ulat=unique(round(testsites(sub,2)));
 ulong=unique(round(testsites(sub,3)));
-ulat=unique(bsxfun(@plus,ulat,[-4:gridsz:4]));
-ulong=unique(mod(bsxfun(@plus,ulong,[-4:gridsz:4]),360));
+ulat=unique(bsxfun(@plus,ulat,[-4:gridsz(1):4]));
+ulong=unique(mod(bsxfun(@plus,ulong,[-4:gridsz(2):4]),360));
 sub=find(abs(ulat)<90); ulat=ulat(sub); ulat=ulat(:)'; ulong=ulong(:)';
 Flat=union(Flat,ulat);
 Flong=union(mod(Flong,360),mod(ulong,360));
