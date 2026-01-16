@@ -99,7 +99,7 @@ if ~cacheLoaded
     runTrainModels;
 
     save thetTGG thetTGG trainsubsubset
-    save(savefile);
+    save(savefile,'-v7.3');
 end
 
 thetTGG0=thetTGG;

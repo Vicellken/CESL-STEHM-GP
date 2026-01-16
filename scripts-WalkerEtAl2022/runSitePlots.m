@@ -8,6 +8,27 @@ figure;
 maxdistfrom=0.1;
 maxerror=1000;
 wtestlocs=testlocs{iii};
+if ~isstruct(wtestlocs) || ~all(isfield(wtestlocs,{'sites','names','reg','X'}))
+    if exist('testsites','var') && exist('testreg','var') && exist('testX','var')
+        wtestlocs = struct();
+        wtestlocs.sites = testsites;
+        wtestlocs.reg = testreg;
+        wtestlocs.X = testX;
+        if exist('testnames2','var')
+            wtestlocs.names = testnames2;
+            wtestlocs.names2 = testnames2;
+        elseif exist('testnames','var')
+            wtestlocs.names = testnames;
+            wtestlocs.names2 = testnames;
+        else
+            wtestlocs.names = arrayfun(@(k) sprintf('site-%d',k), (1:size(testsites,1))', 'UniformOutput', false);
+            wtestlocs.names2 = wtestlocs.names;
+        end
+        warning('runSitePlots: rebuilt testlocs from workspace variables due to invalid testlocs cell content.');
+    else
+        error('runSitePlots: testlocs{%d} is not a struct with sites/names/reg/X; rerun prediction or clear cached variables.', iii);
+    end
+end
 doNoiseMask=1;
 doPlotData=1;
 
